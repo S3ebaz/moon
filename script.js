@@ -50,6 +50,9 @@ const $ = id => document.getElementById(id);
 const wrap = $('wrap'), disk = $('disk'), ring = $('ring'), box = $('markers'),
       info = $('info'), list = $('list'), reset = $('reset'), search = $('search');
 const MOON_KM = 3474; // diámetro de la Luna
+const stage = document.querySelector('.stage'), ld = document.createElement('p');
+ld.className = 'loading'; ld.textContent = 'Preparando la Luna…'; stage.append(ld); // aviso mientras se genera la textura
+const mobile = () => innerWidth <= 860;
 
 /* Proyección ortográfica: (lat, lon) → % dentro del disco lunar */
 const project = (lat, lon) => {
@@ -158,7 +161,7 @@ function paintMoon() {
   }
   g.putImageData(img, 0, 0);
   disk.append(cv);
-  requestAnimationFrame(() => cv.classList.add('on'));
+  requestAnimationFrame(() => { cv.classList.add('on'); ld.remove(); });
 }
 // Se genera tras el primer dibujo para que la página aparezca al instante
 /* ---------- 3b. Textura fotográfica real: mapa LRO de la NASA reproyectado al disco ---------- */
@@ -216,7 +219,7 @@ function paintPhoto(im) {
   }
   g.putImageData(img, 0, 0);
   disk.append(cv);
-  requestAnimationFrame(() => cv.classList.add('on'));
+  requestAnimationFrame(() => { cv.classList.add('on'); ld.remove(); });
 }
 requestAnimationFrame(() => setTimeout(loadTexture, 30));
 
@@ -266,8 +269,10 @@ function select(id) {
       <div><dt>Coordenadas</dt><dd>${coord(c.lat, c.lon)}</dd></div>
       ${c.age ? `<div><dt>Edad</dt><dd>${c.age}</dd></div>` : ''}
     </dl>
-    <p class="txt">${c.info}</p>`;
+    <p class="txt">${c.info}</p>
+    <div class="nav"><button data-d="-1">Anterior</button><button data-d="1">Siguiente</button></div>`;
   info.classList.add('open');
+  if (mobile()) stage.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); // en móvil, asegura ver el mapa
 
   // Estado visual
   CRATERS.forEach(x => { x.m.classList.toggle('on', x === c); x.b.classList.toggle('on', x === c); });
@@ -286,7 +291,14 @@ function resetView() {
   history.replaceState(null, '', location.pathname);
 }
 reset.onclick = resetView;
-info.onclick = e => { if (e.target.closest('.x')) resetView(); };
+info.onclick = e => {
+  if (e.target.closest('.x')) return resetView();
+  const b = e.target.closest('[data-d]');                       // botones Anterior / Siguiente
+  if (b) {
+    const i = CRATERS.findIndex(x => x.b.classList.contains('on'));
+    select(CRATERS[(i + +b.dataset.d + CRATERS.length) % CRATERS.length].id);
+  }
+};
 document.onkeydown = e => { if (e.key === 'Escape') resetView(); };
 
 /* ---------- 7. Buscador ---------- */

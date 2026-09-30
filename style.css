@@ -159,3 +159,43 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 .tex { image-rendering: auto; } /* ampliación suavizada (bilineal) al hacer zoom */
 .credit { text-align: center; color: var(--muted); font-size: .78rem; padding: 0 16px 18px; }
+
+/* ---------- Ajustes para móvil y pantallas táctiles ---------- */
+body { padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px); }
+button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+.loading { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 3; pointer-events: none;
+  font-size: .85rem; color: var(--muted); background: var(--panel); padding: 6px 12px; border-radius: 999px; }
+.info .nav { display: flex; gap: 8px; margin-top: 16px; }
+.info .nav button { flex: 1; padding: 11px; border-radius: 10px; background: #0d1322; border: 1px solid var(--line); }
+.info .nav button:hover { border-color: var(--earthshine); }
+
+@media (pointer: coarse) { /* objetivos táctiles de al menos 32 px */
+  .marker { width: 32px; height: 32px; }
+  .marker i { inset: 10px; }
+  .info .x { width: 44px; height: 44px; top: 4px; right: 4px; }
+}
+@media (max-width: 860px) {
+  .side { display: contents; }                       /* buscador arriba, mapa en medio, lista abajo */
+  #search { order: 1; font-size: 16px; }             /* 16 px evita el zoom automático de iOS */
+  .stage { order: 2; width: min(100%, 80vh); width: min(100%, 80dvh); }
+  .list { order: 3; scroll-snap-type: x proximity; scrollbar-width: none; }
+  .list::-webkit-scrollbar { display: none; }
+  .list li { scroll-snap-align: start; }
+  .layout { gap: 12px; }
+  .top h1 { font-size: 1.3rem; }
+  .marker span { display: none; }                    /* sin etiquetas para que no se amontonen */
+  .marker.on span { display: block; }
+  /* efectos más ligeros para que el zoom vaya fluido */
+  .disk { box-shadow: 0 0 24px rgba(150, 180, 255, .16); }
+  .disk::before { display: none; }
+  .disk::after { box-shadow: none; background: radial-gradient(circle at 34% 30%, transparent 45%, rgba(0, 0, 0, .45) 100%); }
+  .info { max-height: 52vh; max-height: 52dvh; padding: 18px 18px calc(18px + env(safe-area-inset-bottom, 0px));
+    backdrop-filter: none; background: #0d121e; box-shadow: 0 -10px 30px rgba(0, 0, 0, .5); }
+  .info::before { content: ""; display: block; width: 40px; height: 4px; border-radius: 2px; background: var(--line); margin: -6px auto 12px; }
+  .info h2 { font-size: 1.4rem; }
+  .reset { top: 10px; left: 10px; padding: 10px 14px; }
+}
+@media (max-width: 860px) and (orientation: landscape) { /* móvil horizontal: panel lateral */
+  .info { left: auto; right: 0; top: 0; bottom: 0; width: min(340px, 48vw); max-height: none; border-radius: 16px 0 0 16px; transform: translateX(110%); }
+  .info::before { display: none; }
+}

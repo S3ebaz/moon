@@ -12,7 +12,8 @@ Aplicación web interactiva y educativa para explorar la Luna y sus cráteres m�
 - Buscar cráteres por nombre (sin tildes; Enter abre el primer resultado).
 - Volver a la vista completa con el botón **Reiniciar vista** o la tecla **Esc**.
 - Compartir un cráter con un enlace directo, por ejemplo `.../#tycho`.
-- Usarla en móvil: el panel de información sube desde abajo y la lista pasa a ser horizontal.
+- Pasar al cráter anterior o siguiente con los botones del panel.
+- Usarla en el celular: buscador arriba, mapa en el centro y lista deslizable debajo; el panel sube desde abajo (o aparece a un lado en horizontal), con botones táctiles grandes y efectos más ligeros para que el zoom sea fluido.
 
 Cráteres incluidos: Copérnico, Tycho, Clavius, Platón, Aristarco, Kepler, Arquímedes, Aristóteles, Eratóstenes y Langrenus.
 

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Atlas Lunar: explora los cráteres de la Luna</title>
+  <meta name="description" content="Mapa interactivo de los cráteres más famosos de la Luna, con zoom y datos científicos.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <h1>Atlas Lunar</h1>
+    <p>Cara visible de la Luna. Elige un cráter para acercarte.</p>
+  </header>
+
+  <main class="layout">
+    <!-- Buscador y lista de cráteres -->
+    <aside class="side">
+      <input id="search" type="search" placeholder="Buscar cráter" autocomplete="off" aria-label="Buscar cráter por nombre">
+      <ul id="list" class="list"></ul>
+    </aside>
+
+    <!-- Escenario: la Luna se genera desde script.js -->
+    <section class="stage" aria-label="Mapa de la Luna">
+      <div class="moon-wrap" id="wrap">
+        <div class="disk" id="disk"></div>
+        <div class="ring" id="ring" hidden></div>
+        <div id="markers"></div>
+      </div>
+      <button id="reset" class="reset" hidden>Reiniciar vista</button>
+    </section>
+  </main>
+
+  <!-- Panel de información (se rellena al seleccionar un cráter) -->
+  <aside class="info" id="info" aria-live="polite"></aside>
+
+  <p class="credit">Textura lunar: NASA/Goddard Space Flight Center Scientific Visualization Studio, con datos de LRO.</p>
+
+  <script src="script.js"></script>
+</body>
+</html>
